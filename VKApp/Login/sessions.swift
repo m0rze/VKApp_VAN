@@ -8,10 +8,21 @@
 
 import UIKit
 
-class Sessions {
-    static let instance = Sessions()
-       
-       private init() { }
-       var token: String = ""
-       var userId: Int = 0
+class UserSessions {
+    static let instance = UserSessions()
+    
+    private init() { }
+    var token: String = ""
+    var userId: String = ""
+}
+
+struct VKScopeBitMask: OptionSet {
+    let rawValue: Int
+    
+    static let friends = VKScopeBitMask(rawValue: 1 << 1)
+    static let photos = VKScopeBitMask(rawValue: 1 << 2)
+    static let status = VKScopeBitMask(rawValue: 1 << 10)
+    static let wall = VKScopeBitMask(rawValue: 1 << 13)
+    static let offline = VKScopeBitMask(rawValue: 1 << 16)
+    
 }

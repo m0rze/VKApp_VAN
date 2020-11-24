@@ -21,10 +21,10 @@ class OneFriendCollectionViewCell: UICollectionViewCell {
     
     var scaleLabel: CGAffineTransform
     var scaleCell: CGAffineTransform
-    var likesCountUp: () -> Void? = {}
-    var likesCountDown: () -> Void? = {}
-    var likesStateUp: () -> Void? = {}
-    var likesStateDown: () -> Void? = {}
+    var likesCountUp: () -> Void = {}
+    var likesCountDown: () -> Void = {}
+    var likesStateUp: () -> Void = {}
+    var likesStateDown: () -> Void = {}
     var imgStat: FriendImages?
     var likeTrigger: Int?
     

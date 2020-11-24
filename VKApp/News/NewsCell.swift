@@ -21,10 +21,10 @@ class NewsCell: UICollectionViewCell {
     let btnComment = UIButton(type: .custom)
     let btnSayOther = UIButton(type: .custom)
     let likeLabel: UILabel = UILabel()
-    var likesCountUp: () -> Void? = {}
-    var likesCountDown: () -> Void? = {}
-    var likesStateUp: () -> Void? = {}
-    var likesStateDown: () -> Void? = {}
+    var likesCountUp: () -> Void = {}
+    var likesCountDown: () -> Void = {}
+    var likesStateUp: () -> Void = {}
+    var likesStateDown: () -> Void = {}
     
     func configCell(currentFriend: Friends){
         postFriendName.text = currentFriend.name
