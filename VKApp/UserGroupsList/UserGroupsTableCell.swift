@@ -1,0 +1,23 @@
+//
+//  UserGroupsTableCell.swift
+//  VKApp
+//
+//  Created by Алексей Виноградов on 23.08.2020.
+//  Copyright © 2020 Алексей Виноградов. All rights reserved.
+//
+
+import UIKit
+
+class UserGroupsTableCell: UITableViewCell {
+
+    @IBOutlet weak var userGroupsLabel: UILabel!
+    @IBOutlet weak var userGroupsIcon: UIImageView!
+    
+    func configCell(groupData: GroupsData) {
+        
+        userGroupsLabel.text = groupData.name
+        userGroupsIcon.image = UIImage(named: groupData.pic!)
+        
+    }
+
+}
