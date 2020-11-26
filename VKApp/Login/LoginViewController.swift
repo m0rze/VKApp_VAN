@@ -9,6 +9,9 @@
 import UIKit
 import Alamofire
 import WebKit
+
+
+
 class LoginViewController: UIViewController, WKNavigationDelegate {
     
     @IBOutlet weak var loginWebView: WKWebView! {
@@ -17,13 +20,9 @@ class LoginViewController: UIViewController, WKNavigationDelegate {
         }
     }
     
-    enum vkApiGetData: String{
-        case host = "https://"
-        case url = "api.vk.com"
-        case path = "/method/"
-    }
-    
+ 
     let userSession = UserSessions.instance
+    var getVKData = VKGetData()
     
     
     override func viewDidLoad() {
@@ -32,14 +31,6 @@ class LoginViewController: UIViewController, WKNavigationDelegate {
         
     }
     
-    func goGeting(){
-        
-        getFriendsList()
-        getPhotosList(ownerId: "-1")
-        getGroupsList()
-        searchGroups(q: "geekbrains")
-        
-    }
     
     func openLoginForm(perms: VKScopeBitMask) {
         
@@ -62,89 +53,7 @@ class LoginViewController: UIViewController, WKNavigationDelegate {
         
     }
     
-    func getFriendsList() {
-        
-        let apiVKGetURL = vkApiGetData.host.rawValue + vkApiGetData.url.rawValue + vkApiGetData.path.rawValue + "friends.get"
-        let parameters: Parameters = [
-            
-            "access_token" : userSession.token,
-            "user_id" : userSession.userId,
-            "order" : "name",
-            "fields" : "nickname,status",
-            "v" : "5.68"
-            
-            
-        ]
-        AF.request(apiVKGetURL, method: .get, parameters: parameters).responseJSON { response in
-            print("\n\n=================== FRIENDS LIST =============================\n")
-            print(response.value!)
-            
-        }
-        
-    }
-    
-    func getPhotosList(ownerId: String) {
-        
-        let apiVKGetURL = vkApiGetData.host.rawValue + vkApiGetData.url.rawValue + vkApiGetData.path.rawValue + "photos.getAll"
-        let parameters: Parameters = [
-            
-            "access_token" : userSession.token,
-            "user_id" : userSession.userId,
-            "owner_id" : ownerId,
-            "count" : "5",
-            "v" : "5.68"
-            
-            
-        ]
-        AF.request(apiVKGetURL, method: .get, parameters: parameters).responseJSON { response in
-            print("\n\n=================== PHOTOS LIST =============================\n")
-            print(response.value!)
-            
-        }
-        
-    }
-    
-    func getGroupsList() {
-        
-        let apiVKGetURL = vkApiGetData.host.rawValue + vkApiGetData.url.rawValue + vkApiGetData.path.rawValue + "groups.get"
-        let parameters: Parameters = [
-            
-            "access_token" : userSession.token,
-            "user_id" : userSession.userId,
-            "extended" : "1",
-            "fields" : "description",
-            "v" : "5.68"
-            
-            
-        ]
-        AF.request(apiVKGetURL, method: .get, parameters: parameters).responseJSON { response in
-            print("\n\n=================== GROUPS LIST =============================\n")
-            print(response.value!)
-            
-        }
-        
-    }
-    
-    func searchGroups(q: String) {
-        
-        let apiVKGetURL = vkApiGetData.host.rawValue + vkApiGetData.url.rawValue + vkApiGetData.path.rawValue + "groups.search"
-        let parameters: Parameters = [
-            
-            "access_token" : userSession.token,
-            "user_id" : userSession.userId,
-            "q" : q,
-            "count" : "10",
-            "v" : "5.68"
-            
-            
-        ]
-        AF.request(apiVKGetURL, method: .get, parameters: parameters).responseJSON { response in
-            print("\n\n=================== SEARCH GROUPS =============================\n")
-            print(response.value!)
-            
-        }
-        
-    }
+   
     
     
     func webView(_ webView: WKWebView, decidePolicyFor navigationResponse: WKNavigationResponse, decisionHandler: @escaping (WKNavigationResponsePolicy) -> Void) {
@@ -168,13 +77,13 @@ class LoginViewController: UIViewController, WKNavigationDelegate {
         
         let token = params["access_token"]
         let userId = params["user_id"]
-        
+
         userSession.token = token ?? ""
         userSession.userId = userId ?? ""
         
         decisionHandler(.cancel)
         if userSession.token != "" {
-            goGeting()
+            getVKData.goGeting()
         }
         
     }

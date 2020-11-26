@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -36,6 +36,7 @@
 		918D973F24F2EBE7000F10FE /* UserGroupsTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 918D973E24F2EBE7000F10FE /* UserGroupsTableCell.swift */; };
 		918D974324F66B1C000F10FE /* AvatarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 918D974224F66B1C000F10FE /* AvatarView.swift */; };
 		91AB77E92565186F0036AAD8 /* sessions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91AB77E82565186F0036AAD8 /* sessions.swift */; };
+		91B22362256F8BA7004531AA /* VKGetData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91B22361256F8BA7004531AA /* VKGetData.swift */; };
 		E44AC70CB857192C07CF2F59 /* Pods_VKApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7E0734189BBE9E461A81C236 /* Pods_VKApp.framework */; };
 /* End PBXBuildFile section */
 
@@ -73,6 +74,7 @@
 		918D973E24F2EBE7000F10FE /* UserGroupsTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserGroupsTableCell.swift; sourceTree = "<group>"; };
 		918D974224F66B1C000F10FE /* AvatarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvatarView.swift; sourceTree = "<group>"; };
 		91AB77E82565186F0036AAD8 /* sessions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = sessions.swift; sourceTree = "<group>"; };
+		91B22361256F8BA7004531AA /* VKGetData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VKGetData.swift; sourceTree = "<group>"; };
 		9935F9055BE7370656484D7C /* Pods-VKApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-VKApp.debug.xcconfig"; path = "Target Support Files/Pods-VKApp/Pods-VKApp.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -102,7 +104,6 @@
 				9935F9055BE7370656484D7C /* Pods-VKApp.debug.xcconfig */,
 				08CEF47BD278874C6C62135E /* Pods-VKApp.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -147,6 +148,7 @@
 		918189E424EBF3310034166E /* VKApp */ = {
 			isa = PBXGroup;
 			children = (
+				91B22360256F8B8D004531AA /* Other */,
 				91360D4A2501183B00E5E968 /* News */,
 				918D973724F2E97F000F10FE /* Model */,
 				918189E524EBF3310034166E /* AppDelegate.swift */,
@@ -223,6 +225,14 @@
 				91AB77E82565186F0036AAD8 /* sessions.swift */,
 			);
 			path = Login;
+			sourceTree = "<group>";
+		};
+		91B22360256F8B8D004531AA /* Other */ = {
+			isa = PBXGroup;
+			children = (
+				91B22361256F8BA7004531AA /* VKGetData.swift */,
+			);
+			path = Other;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -347,6 +357,7 @@
 				91360D5425011E2B00E5E968 /* NewsLayouts.swift in Sources */,
 				918D972924F2B466000F10FE /* FriendsOneCellController.swift in Sources */,
 				913F4F852504F4D600CC86E1 /* ProcessBar.swift in Sources */,
+				91B22362256F8BA7004531AA /* VKGetData.swift in Sources */,
 				918D973624F2E668000F10FE /* SearchGroupTableCell.swift in Sources */,
 				918D973D24F2EAB7000F10FE /* Group.swift in Sources */,
 				918189EA24EBF3310034166E /* LoginViewController.swift in Sources */,
