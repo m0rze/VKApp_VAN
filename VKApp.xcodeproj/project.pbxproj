@@ -18,6 +18,10 @@
 		913F4F852504F4D600CC86E1 /* ProcessBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 913F4F842504F4D600CC86E1 /* ProcessBar.swift */; };
 		913F4F8B2508CFA500CC86E1 /* ViewPhotos.swift in Sources */ = {isa = PBXBuildFile; fileRef = 913F4F8A2508CFA500CC86E1 /* ViewPhotos.swift */; };
 		913F4F8E2508F12500CC86E1 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 913F4F8D2508F12500CC86E1 /* MainView.swift */; };
+		914BCB7B257505A3008E63C2 /* JSONPhotos.swift in Sources */ = {isa = PBXBuildFile; fileRef = 914BCB7A257505A3008E63C2 /* JSONPhotos.swift */; };
+		914BCB7E25751026008E63C2 /* extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 914BCB7D25751026008E63C2 /* extensions.swift */; };
+		914BCB812575116E008E63C2 /* JSONGroups.swift in Sources */ = {isa = PBXBuildFile; fileRef = 914BCB802575116E008E63C2 /* JSONGroups.swift */; };
+		917D8E972570DDC1004E084E /* JSONFriends.swift in Sources */ = {isa = PBXBuildFile; fileRef = 917D8E962570DDC1004E084E /* JSONFriends.swift */; };
 		918189E624EBF3310034166E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 918189E524EBF3310034166E /* AppDelegate.swift */; };
 		918189E824EBF3310034166E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 918189E724EBF3310034166E /* SceneDelegate.swift */; };
 		918189EA24EBF3310034166E /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 918189E924EBF3310034166E /* LoginViewController.swift */; };
@@ -54,6 +58,10 @@
 		913F4F842504F4D600CC86E1 /* ProcessBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProcessBar.swift; sourceTree = "<group>"; };
 		913F4F8A2508CFA500CC86E1 /* ViewPhotos.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewPhotos.swift; sourceTree = "<group>"; };
 		913F4F8D2508F12500CC86E1 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
+		914BCB7A257505A3008E63C2 /* JSONPhotos.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONPhotos.swift; sourceTree = "<group>"; };
+		914BCB7D25751026008E63C2 /* extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = extensions.swift; sourceTree = "<group>"; };
+		914BCB802575116E008E63C2 /* JSONGroups.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONGroups.swift; sourceTree = "<group>"; };
+		917D8E962570DDC1004E084E /* JSONFriends.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONFriends.swift; sourceTree = "<group>"; };
 		918189E224EBF3310034166E /* VKApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VKApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		918189E524EBF3310034166E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		918189E724EBF3310034166E /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -123,6 +131,7 @@
 			children = (
 				913F4F8A2508CFA500CC86E1 /* ViewPhotos.swift */,
 				913F4F8D2508F12500CC86E1 /* MainView.swift */,
+				914BCB7A257505A3008E63C2 /* JSONPhotos.swift */,
 			);
 			path = ShowFriendsPhotos;
 			sourceTree = "<group>";
@@ -174,6 +183,7 @@
 				918D972824F2B466000F10FE /* FriendsOneCellController.swift */,
 				912042B925003A490047A116 /* FriendsHeaderCell.xib */,
 				912042BB25003B130047A116 /* FriendsHeaderCell.swift */,
+				917D8E962570DDC1004E084E /* JSONFriends.swift */,
 			);
 			path = FriendsList;
 			sourceTree = "<group>";
@@ -193,6 +203,7 @@
 			children = (
 				918D972F24F2E327000F10FE /* UserGroupsListTable.swift */,
 				918D973E24F2EBE7000F10FE /* UserGroupsTableCell.swift */,
+				914BCB802575116E008E63C2 /* JSONGroups.swift */,
 			);
 			path = UserGroupsList;
 			sourceTree = "<group>";
@@ -231,6 +242,7 @@
 			isa = PBXGroup;
 			children = (
 				91B22361256F8BA7004531AA /* VKGetData.swift */,
+				914BCB7D25751026008E63C2 /* extensions.swift */,
 			);
 			path = Other;
 			sourceTree = "<group>";
@@ -264,7 +276,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 1140;
-				LastUpgradeCheck = 1140;
+				LastUpgradeCheck = 1220;
 				ORGANIZATIONNAME = "Алексей Виноградов";
 				TargetAttributes = {
 					918189E124EBF3310034166E = {
@@ -355,6 +367,7 @@
 				918D973F24F2EBE7000F10FE /* UserGroupsTableCell.swift in Sources */,
 				918D973324F2E362000F10FE /* SearchGroupsTable.swift in Sources */,
 				91360D5425011E2B00E5E968 /* NewsLayouts.swift in Sources */,
+				914BCB7E25751026008E63C2 /* extensions.swift in Sources */,
 				918D972924F2B466000F10FE /* FriendsOneCellController.swift in Sources */,
 				913F4F852504F4D600CC86E1 /* ProcessBar.swift in Sources */,
 				91B22362256F8BA7004531AA /* VKGetData.swift in Sources */,
@@ -363,16 +376,19 @@
 				918189EA24EBF3310034166E /* LoginViewController.swift in Sources */,
 				918189FE24EC54E80034166E /* FriendsListTableViewController.swift in Sources */,
 				910E9DD924FACEE10052FEDD /* Groups.swift in Sources */,
+				917D8E972570DDC1004E084E /* JSONFriends.swift in Sources */,
 				91360D4C2501186E00E5E968 /* NewsCollection.swift in Sources */,
 				918189E624EBF3310034166E /* AppDelegate.swift in Sources */,
 				918189E824EBF3310034166E /* SceneDelegate.swift in Sources */,
 				913F4F8B2508CFA500CC86E1 /* ViewPhotos.swift in Sources */,
 				91360D502501191900E5E968 /* NewsCell.swift in Sources */,
 				918D974324F66B1C000F10FE /* AvatarView.swift in Sources */,
+				914BCB7B257505A3008E63C2 /* JSONPhotos.swift in Sources */,
 				91AB77E92565186F0036AAD8 /* sessions.swift in Sources */,
 				918D972B24F2BDFA000F10FE /* FriendsPhotoCollectionViewController.swift in Sources */,
 				918D972E24F2BE37000F10FE /* OneFriendCollectionViewCell.swift in Sources */,
 				918D973024F2E327000F10FE /* UserGroupsListTable.swift in Sources */,
+				914BCB812575116E008E63C2 /* JSONGroups.swift in Sources */,
 				913F4F8E2508F12500CC86E1 /* MainView.swift in Sources */,
 				910E9DD724FAC6D40052FEDD /* Friends.swift in Sources */,
 				918D973B24F2EAAE000F10FE /* User.swift in Sources */,
@@ -428,6 +444,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -488,6 +505,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;

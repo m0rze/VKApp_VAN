@@ -19,42 +19,63 @@ struct vkApiGetData {
     }
 }
 
+class ResFriendsResponse: Decodable {
+    let response: FriendsResponse
+}
+class FriendsResponse: Decodable {
+    let items: [FriendsData]
+}
+
+
+class ResFriendPhotosResponse: Decodable {
+    let response: FriendPhotosResponse
+}
+class FriendPhotosResponse: Decodable {
+    let items: [FriendPhotos]
+}
+
+class ResGroupsResponse: Decodable {
+    let response: GroupsResponse
+}
+class GroupsResponse: Decodable {
+    let items: [UserGroups]
+}
+
 class VKGetData {
     
     let vkGetBaseData = vkApiGetData()
     let userSession = UserSessions.instance
     
-    func goGeting(){
-        
-        getFriendsList()
-        getPhotosList(ownerId: "-1")
-        getGroupsList()
-        searchGroups(q: "geekbrains")
-        
-    }
+    static let shared = VKGetData()
     
-    func getFriendsList() {
+    private init() {}
+    
+    @discardableResult
+    func getFriendsList(completion: @escaping ([FriendsData]?) -> Void) -> Request {
         
         let apiVKGetURL = vkGetBaseData.baseURL + "friends.get"
         let parameters: Parameters = [
-            
             "access_token" : userSession.token,
             "user_id" : userSession.userId,
             "order" : "name",
-            "fields" : "nickname,status",
+            "fields" : "nickname,status,photo_100",
             "v" : "5.68"
-            
-            
         ]
-        AF.request(apiVKGetURL, method: .get, parameters: parameters).responseJSON { response in
-            print("\n\n=================== FRIENDS LIST =============================\n")
-            print(response.value!)
-            
+        
+        return Session.default.request(apiVKGetURL, parameters: parameters).responseData { response in
+            guard let data = response.value,
+                  let friends = try? JSONDecoder().decode(ResFriendsResponse.self, from: data).response.items
+            else {
+                completion(nil)
+                return
+            }
+            completion(friends)
         }
         
     }
     
-    func getPhotosList(ownerId: String) {
+    @discardableResult
+    func getPhotosList(ownerId: Int, completion: @escaping ([FriendPhotos]?) -> Void) -> Request {
         
         let apiVKGetURL = vkGetBaseData.baseURL + "photos.getAll"
         let parameters: Parameters = [
@@ -62,20 +83,25 @@ class VKGetData {
             "access_token" : userSession.token,
             "user_id" : userSession.userId,
             "owner_id" : ownerId,
-            "count" : "5",
+            "count" : "10",
             "v" : "5.68"
-            
-            
+   
         ]
-        AF.request(apiVKGetURL, method: .get, parameters: parameters).responseJSON { response in
-            print("\n\n=================== PHOTOS LIST =============================\n")
-            print(response.value!)
-            
+        return Session.default.request(apiVKGetURL, parameters: parameters).responseData { response in
+            guard let data = response.value,
+                  let friendPhotos = try? JSONDecoder().decode(ResFriendPhotosResponse.self, from: data).response.items
+            else {
+                completion(nil)
+                return
+            }
+            //print(friendPhotos)
+            completion(friendPhotos)
         }
         
     }
     
-    func getGroupsList() {
+    @discardableResult
+    func getGroupsList(completion: @escaping ([UserGroups]?) -> Void) -> Request {
         
         let apiVKGetURL = vkGetBaseData.baseURL + "groups.get"
         let parameters: Parameters = [
@@ -88,10 +114,15 @@ class VKGetData {
             
             
         ]
-        AF.request(apiVKGetURL, method: .get, parameters: parameters).responseJSON { response in
-            print("\n\n=================== GROUPS LIST =============================\n")
-            print(response.value!)
-            
+        return Session.default.request(apiVKGetURL, parameters: parameters).responseData { response in
+            guard let data = response.value,
+                  let userGroups = try? JSONDecoder().decode(ResGroupsResponse.self, from: data).response.items
+            else {
+                completion(nil)
+                return
+            }
+            //print(userGroups)
+            completion(userGroups)
         }
         
     }

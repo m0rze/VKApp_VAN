@@ -22,8 +22,6 @@ class LoginViewController: UIViewController, WKNavigationDelegate {
     
  
     let userSession = UserSessions.instance
-    var getVKData = VKGetData()
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -81,11 +79,12 @@ class LoginViewController: UIViewController, WKNavigationDelegate {
         userSession.token = token ?? ""
         userSession.userId = userId ?? ""
         
-        decisionHandler(.cancel)
         if userSession.token != "" {
-            getVKData.goGeting()
+        let vc = UIStoryboard(name:"Main", bundle:nil).instantiateViewController(withIdentifier: "maintabs") as! UITabBarController
+        self.present(vc, animated: true, completion: nil)
         }
         
+        decisionHandler(.cancel)
     }
     
     

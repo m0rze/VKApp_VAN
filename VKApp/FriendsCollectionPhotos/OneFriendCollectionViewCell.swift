@@ -25,7 +25,7 @@ class OneFriendCollectionViewCell: UICollectionViewCell {
     var likesCountDown: () -> Void = {}
     var likesStateUp: () -> Void = {}
     var likesStateDown: () -> Void = {}
-    var imgStat: FriendImages?
+    var photos: FriendPhotos?
     var likeTrigger: Int?
     
     required init(coder: NSCoder){
@@ -38,9 +38,9 @@ class OneFriendCollectionViewCell: UICollectionViewCell {
     func configView() {
         self.alpha = 0.0
         self.transform = scaleCell
-        self.likeTrigger = imgStat?.likeState
-        friendOneImage.image = UIImage(named: (imgStat?.name!)!)
-        
+        self.likeTrigger = photos?.likeState
+       // friendOneImage.image = UIImage(named: (imgStat?.name!)!)
+        friendOneImage.load(url: photos!.photo_1280)
         appearPhoto()
         if likeTrigger == 1 {
             btn.setImage(UIImage(named: "like_heart"), for: .normal)
@@ -53,7 +53,7 @@ class OneFriendCollectionViewCell: UICollectionViewCell {
         btn.addTarget(self, action: #selector(addLike), for: .touchUpInside)
         addSubview(btn)
 
-        likeLabel.text = "\(imgStat!.likesCount)"
+        likeLabel.text = "\(photos!.likesCount)"
         likeLabel.font = likeLabel.font.withSize(20)
         likeLabel.font = UIFont.boldSystemFont(ofSize: 16.0)
         addSubview(likeLabel)

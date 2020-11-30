@@ -13,11 +13,11 @@ class FriendsOneCellController: UITableViewCell {
     @IBOutlet weak var friendLabel: UILabel!
     
     
-    func configCell(oneFriend: Friends) {
+    func configCell(oneFriend: FriendsData) {
         self.backgroundColor = .clear
-        friendLabel.text = oneFriend.name
+        friendLabel.text = oneFriend.firstname + " " + oneFriend.lastname
         avatarView.shadowSubView()
-        avatarView.avatarImage(imgname: oneFriend.mainPic)
+        avatarView.avatarImage(imgname: oneFriend.avatarphoto)
 
     }
 
