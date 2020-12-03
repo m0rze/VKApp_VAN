@@ -40,7 +40,7 @@ class OneFriendCollectionViewCell: UICollectionViewCell {
         self.transform = scaleCell
         self.likeTrigger = photos?.likeState
        // friendOneImage.image = UIImage(named: (imgStat?.name!)!)
-        friendOneImage.load(url: photos!.photo_1280)
+        friendOneImage.load(url: URL(string: photos!.photo_1280)!)
         appearPhoto()
         if likeTrigger == 1 {
             btn.setImage(UIImage(named: "like_heart"), for: .normal)

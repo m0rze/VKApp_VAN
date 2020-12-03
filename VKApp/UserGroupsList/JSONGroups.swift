@@ -8,14 +8,19 @@
 
 import Foundation
 import UIKit
+import RealmSwift
 
-class UserGroups: Decodable {
+class UserGroups: Object, Decodable {
     
-    var description = ""
-    var id = 0
-    var name = ""
-    var photo_100: URL
-    var photo_200: URL
+    @objc dynamic var desc = ""
+    @objc dynamic var id = 0
+    @objc dynamic var name = ""
+    @objc dynamic var photo_100: String = ""
+    @objc dynamic var photo_200: String = ""
+    
+    override init(){
+        super.init()
+    }
     
     enum ItemsKeys: String, CodingKey {
         
@@ -30,9 +35,9 @@ class UserGroups: Decodable {
     required init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: ItemsKeys.self)
         self.name = try values.decode(String.self, forKey: .name)
-        self.description = try values.decode(String.self, forKey: .description)
-        self.photo_100 = try values.decode(URL.self, forKey: .photo_100)
-        self.photo_200 = try values.decode(URL.self, forKey: .photo_200)
+        self.desc = try values.decode(String.self, forKey: .description)
+        self.photo_100 = try values.decode(String.self, forKey: .photo_100)
+        self.photo_200 = try values.decode(String.self, forKey: .photo_200)
         self.id = try values.decode(Int.self, forKey: .id)
   
     }
