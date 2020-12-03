@@ -8,16 +8,10 @@
 
 import Foundation
 
-struct FriendImages {
-    let name: String?
-    var likesCount: Int = 0
-    var likeState: Int = 0
-}
-
 struct Friends {
     let name: String
     let mainPic: String
-    let pics: [FriendImages]?
+    let pics: [FriendPhotos]?
     var firstLetter: String { return String(name.first!)}
     let about: String?
     var friendLikes: Int = 0

@@ -13,10 +13,10 @@ class UserGroupsTableCell: UITableViewCell {
     @IBOutlet weak var userGroupsLabel: UILabel!
     @IBOutlet weak var userGroupsIcon: UIImageView!
     
-    func configCell(groupData: GroupsData) {
+    func configCell(groupData: UserGroups) {
         
         userGroupsLabel.text = groupData.name
-        userGroupsIcon.image = UIImage(named: groupData.pic!)
+        userGroupsIcon.load(url: groupData.photo_200)
         
     }
 

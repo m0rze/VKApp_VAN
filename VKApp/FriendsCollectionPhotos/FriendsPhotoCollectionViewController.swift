@@ -10,38 +10,49 @@ import UIKit
 
 class FriendsPhotoCollectionViewController: UICollectionViewController {
     
-    var friendIndex: String = ""
-    let photosView = ViewPhotos()
+    var friendIndex: Int?
+    var photosView = ViewPhotos()
     var currentLikes: Int?
     
-    var friendsPhotos: [FriendImages]? = nil
+    var friendsPhotos: [FriendPhotos] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        photosView.friendPhotos = friendsPhotos
+        
+        //VKGetData.shared.getPhotosList(ownerId: friendIndex!)
+        VKGetData.shared.getPhotosList(ownerId: friendIndex!, completion: { [weak self] allPhotos in
+            DispatchQueue.main.async { [self] in
+                guard let self = self, let photos = allPhotos else { return }
+                self.friendsPhotos = photos
+                print(self.friendsPhotos)
+                self.photosView.friendPhotos = self.friendsPhotos
+                self.collectionView.reloadData()
+            }
+            })
         
     }
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return friendsPhotos?.count ?? 0
+        
+        return friendsPhotos.count
     }
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "friendPhoto", for: indexPath) as! OneFriendCollectionViewCell
-        cell.imgStat = friendsPhotos![indexPath.row]
+        cell.photos = friendsPhotos[indexPath.row]
         cell.configView()
         cell.likesCountUp = {
-            self.friendsPhotos![indexPath.row].likesCount += 1
+            self.friendsPhotos[indexPath.row].likesCount += 1
         }
         cell.likesCountDown = {
-            self.friendsPhotos![indexPath.row].likesCount -= 1
+            self.friendsPhotos[indexPath.row].likesCount -= 1
         }
-        
+
         cell.likesStateUp = {
-            self.friendsPhotos![indexPath.row].likeState += 1
+            self.friendsPhotos[indexPath.row].likeState += 1
         }
         cell.likesStateDown = {
-            self.friendsPhotos![indexPath.row].likeState -= 1
+            self.friendsPhotos[indexPath.row].likeState -= 1
         }
         return cell
     }

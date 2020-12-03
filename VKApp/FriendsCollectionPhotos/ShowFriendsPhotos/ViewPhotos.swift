@@ -11,7 +11,7 @@ import UIKit
 class ViewPhotos: UIViewController {
 
     let mainView = MainView()
-    var friendPhotos: [FriendImages]? = []
+    var friendPhotos: [FriendPhotos]? = []
     var currentImageIndex = Int()
     
     override func viewDidLoad() {

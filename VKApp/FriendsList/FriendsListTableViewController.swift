@@ -8,22 +8,27 @@
 
 import UIKit
 
+
 struct FriendsFullData {
     let letter: String?
-    let friendData: [Friends]
+    let friendData: [FriendsData]
 }
 
 class FriendsListTableViewController: UITableViewController, UISearchBarDelegate, UINavigationControllerDelegate {
     
-    let myFriends = [
-        Friends(name: "Никола Тесла", mainPic: "tesla1", pics: [FriendImages(name: "tesla1"), FriendImages(name: "tesla2"), FriendImages(name: "tesla3")], about: nil),
-        Friends(name: "Генри Форд", mainPic: "ford1", pics: [FriendImages(name: "ford1"), FriendImages(name: "ford2"), FriendImages(name: "ford3"), FriendImages(name: "ford4")], about: nil),
-        Friends(name: "Стив Джобс", mainPic: "jobs1", pics: [FriendImages(name: "jobs1"), FriendImages(name: "jobs2"), FriendImages(name: "jobs3")], about: nil),
-        Friends(name: "Брэд Питт", mainPic: "pitt1", pics: [FriendImages(name: "pitt1"), FriendImages(name: "pitt2"), FriendImages(name: "pitt3"), FriendImages(name: "pitt4"), FriendImages(name: "pitt1"), FriendImages(name: "pitt2"), FriendImages(name: "pitt3"), FriendImages(name: "pitt4"), FriendImages(name: "pitt1"), FriendImages(name: "pitt2"), FriendImages(name: "pitt3"), FriendImages(name: "pitt4"), FriendImages(name: "pitt1"), FriendImages(name: "pitt2"), FriendImages(name: "pitt3"), FriendImages(name: "pitt4"), FriendImages(name: "pitt1"), FriendImages(name: "pitt2"), FriendImages(name: "pitt3"), FriendImages(name: "pitt4"), FriendImages(name: "pitt1"), FriendImages(name: "pitt2"), FriendImages(name: "pitt3"), FriendImages(name: "pitt4"), FriendImages(name: "pitt1"), FriendImages(name: "pitt2"), FriendImages(name: "pitt3"), FriendImages(name: "pitt4"), FriendImages(name: "pitt1"), FriendImages(name: "pitt2"), FriendImages(name: "pitt3"), FriendImages(name: "pitt4"), FriendImages(name: "pitt1"), FriendImages(name: "pitt2"), FriendImages(name: "pitt3"), FriendImages(name: "pitt4"), FriendImages(name: "pitt1"), FriendImages(name: "pitt2"), FriendImages(name: "pitt3"), FriendImages(name: "pitt4")], about: nil),
-        Friends(name: "Жюль Верн", mainPic: "verne1", pics: [FriendImages(name: "verne1"), FriendImages(name: "verne2"), FriendImages(name: "verne3")], about: nil)
-    ]
+    var friends: [FriendsData] = []
+    let userSession = UserSessions.instance
+
     
-    var searchedFriends: [Friends] = []
+//    let myFriends = [
+//        Friends(name: "Никола Тесла", mainPic: "tesla1", pics: [FriendImages(name: "tesla1"), FriendImages(name: "tesla2"), FriendImages(name: "tesla3")], about: nil),
+//        Friends(name: "Генри Форд", mainPic: "ford1", pics: [FriendImages(name: "ford1"), FriendImages(name: "ford2"), FriendImages(name: "ford3"), FriendImages(name: "ford4")], about: nil),
+//        Friends(name: "Стив Джобс", mainPic: "jobs1", pics: [FriendImages(name: "jobs1"), FriendImages(name: "jobs2"), FriendImages(name: "jobs3")], about: nil),
+//        Friends(name: "Брэд Питт", mainPic: "pitt1", pics: [FriendImages(name: "pitt1"), FriendImages(name: "pitt2"), FriendImages(name: "pitt3"), FriendImages(name: "pitt4"), FriendImages(name: "pitt1"), FriendImages(name: "pitt2"), FriendImages(name: "pitt3"), FriendImages(name: "pitt4"), FriendImages(name: "pitt1"), FriendImages(name: "pitt2"), FriendImages(name: "pitt3"), FriendImages(name: "pitt4"), FriendImages(name: "pitt1"), FriendImages(name: "pitt2"), FriendImages(name: "pitt3"), FriendImages(name: "pitt4"), FriendImages(name: "pitt1"), FriendImages(name: "pitt2"), FriendImages(name: "pitt3"), FriendImages(name: "pitt4"), FriendImages(name: "pitt1"), FriendImages(name: "pitt2"), FriendImages(name: "pitt3"), FriendImages(name: "pitt4"), FriendImages(name: "pitt1"), FriendImages(name: "pitt2"), FriendImages(name: "pitt3"), FriendImages(name: "pitt4"), FriendImages(name: "pitt1"), FriendImages(name: "pitt2"), FriendImages(name: "pitt3"), FriendImages(name: "pitt4"), FriendImages(name: "pitt1"), FriendImages(name: "pitt2"), FriendImages(name: "pitt3"), FriendImages(name: "pitt4"), FriendImages(name: "pitt1"), FriendImages(name: "pitt2"), FriendImages(name: "pitt3"), FriendImages(name: "pitt4")], about: nil),
+//        Friends(name: "Жюль Верн", mainPic: "verne1", pics: [FriendImages(name: "verne1"), FriendImages(name: "verne2"), FriendImages(name: "verne3")], about: nil)
+//    ]
+    
+    var searchedFriends: [FriendsData] = []
     
     var sortedFriendsData: [FriendsFullData] = []
     
@@ -32,7 +37,21 @@ class FriendsListTableViewController: UITableViewController, UISearchBarDelegate
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationController?.delegate = self
-        searchedFriends = myFriends
+        
+        VKGetData.shared.getFriendsList(completion: { [weak self] allFriends in
+            DispatchQueue.main.async {
+                guard let self = self, let friends = allFriends else { return }
+                self.friends = friends
+                self.sorteredFriends()
+                self.tableView.reloadData()
+            }
+            })
+ 
+    }
+    
+    func sorteredFriends(){
+        searchedFriends = friends
+        
         let searchBar: UISearchBar = UISearchBar()
         searchBar.searchBarStyle = UISearchBar.Style.prominent
         searchBar.placeholder = " Поиск..."
@@ -52,11 +71,11 @@ class FriendsListTableViewController: UITableViewController, UISearchBarDelegate
         guard let text = searchBar.text else { return }
         
         if text.isEmpty {
-            searchedFriends = myFriends
+            searchedFriends = friends
         } else {
             
-            searchedFriends = myFriends.filter({ (friend) -> Bool in
-                return friend.name.contains(text)
+            searchedFriends = friends.filter({ (friend) -> Bool in
+                return friend.firstname.contains(text)
             })
         }
         sortedFriendsData = map(friends: searchedFriends)
@@ -79,14 +98,13 @@ class FriendsListTableViewController: UITableViewController, UISearchBarDelegate
         return 50
     }
     
-    private func map(friends: [Friends]) -> [FriendsFullData] {
+    private func map(friends: [FriendsData]) -> [FriendsFullData] {
         
         var outputFriends: [FriendsFullData] = []
-        
-        let sortedFriends = friends.sorted{(u1, u2) -> Bool in u1.name < u2.name}
+        let sortedFriends = friends.sorted{(u1, u2) -> Bool in u1.firstname < u2.firstname}
         
         var lastOfLetter: String = ""
-        var friendsOfLetter: [Friends] = []
+        var friendsOfLetter: [FriendsData] = []
         var i: Int = 0
         for oneFriend in sortedFriends {
             i += 1
@@ -129,7 +147,7 @@ class FriendsListTableViewController: UITableViewController, UISearchBarDelegate
         
         self.rootFriendIndex = indexPath.row
         let vc = UIStoryboard(name:"Main", bundle:nil).instantiateViewController(withIdentifier: "FriendsPhotoCollectionViewControllerID") as! FriendsPhotoCollectionViewController
-        vc.friendsPhotos = sortedFriendsData[indexPath.section].friendData[indexPath.row].pics
+        vc.friendIndex = sortedFriendsData[indexPath.section].friendData[indexPath.row].id
         
         self.navigationController?.pushViewController(vc, animated:true)
         

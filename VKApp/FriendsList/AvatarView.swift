@@ -46,15 +46,14 @@ class AvatarView: UIView {
         self.backgroundColor = .clear
     }
     
-    func avatarImage(imgname: String){
-        let background = UIImage(named: imgname)
-        
+    func avatarImage(imgname: URL){
+
         var imageView : UIImageView!
         imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: frame.width-10, height: frame.height-10))
         
         imageView.contentMode =  UIView.ContentMode.scaleAspectFill
         imageView.clipsToBounds = true
-        imageView.image = background
+        imageView.load(url: imgname)
         imageView.center = center
         let roundMask = CAShapeLayer()
         roundMask.path = UIBezierPath(ovalIn: imageView.bounds).cgPath
@@ -103,3 +102,5 @@ class AvatarView: UIView {
     }
     
 }
+
+

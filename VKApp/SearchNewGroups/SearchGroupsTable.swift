@@ -10,14 +10,9 @@ import UIKit
 
 class SearchGroupsTable: UITableViewController, UISearchBarDelegate {
     
-    var newGroups = [
-        GroupsData(name: "Писатели", pic: "writers"),
-        GroupsData(name: "Актеры", pic: "actress"),
-        GroupsData(name: "Научные гении", pic: "scientist"),
-        GroupsData(name: "Сотрудники Apple", pic: "apple_company")
-    ]
+    var newGroups = [UserGroups]()
     
-    var searchedGroups: [GroupsData] = []
+    var searchedGroups: [UserGroups] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -39,7 +34,7 @@ class SearchGroupsTable: UITableViewController, UISearchBarDelegate {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "newGroupsCell", for: indexPath) as! SearchGroupTableCell
         cell.newGroupLabel.text = searchedGroups[indexPath.row].name
-        cell.newGroupIcon.image = UIImage(named: searchedGroups[indexPath.row].pic!)
+        cell.newGroupIcon.load(url: searchedGroups[indexPath.row].photo_200)
         return cell
     }
     
