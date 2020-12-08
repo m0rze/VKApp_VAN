@@ -34,7 +34,7 @@ class SearchGroupsTable: UITableViewController, UISearchBarDelegate {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "newGroupsCell", for: indexPath) as! SearchGroupTableCell
         cell.newGroupLabel.text = searchedGroups[indexPath.row].name
-        cell.newGroupIcon.load(url: searchedGroups[indexPath.row].photo_200)
+        cell.newGroupIcon.load(url: URL(string: searchedGroups[indexPath.row].photo_200)!)
         return cell
     }
     

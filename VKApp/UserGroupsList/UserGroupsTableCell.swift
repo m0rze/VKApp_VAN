@@ -16,7 +16,7 @@ class UserGroupsTableCell: UITableViewCell {
     func configCell(groupData: UserGroups) {
         
         userGroupsLabel.text = groupData.name
-        userGroupsIcon.load(url: groupData.photo_200)
+        userGroupsIcon.load(url: URL(string: groupData.photo_200)!)
         
     }
 

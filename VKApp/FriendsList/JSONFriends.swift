@@ -8,15 +8,20 @@
 
 import Foundation
 import UIKit
+import RealmSwift
 
 
-class FriendsData: Decodable {
+class FriendsData: Object, Decodable {
 
-    var firstname = ""
-    var id = 0
-    var lastname = ""
-    var avatarphoto: URL
-    var firstLetter: String { return String(firstname.first!)}
+    @objc dynamic var firstname = ""
+    @objc dynamic var id = 0
+    @objc dynamic var lastname = ""
+    @objc dynamic var avatarphoto: String = ""
+    @objc dynamic var firstLetter: String { return String(firstname.first!)}
+    
+    override init(){
+        super.init()
+    }
 
     enum ItemsKeys: String, CodingKey {
 
@@ -31,7 +36,7 @@ class FriendsData: Decodable {
         let values = try decoder.container(keyedBy: ItemsKeys.self)
         self.firstname = try values.decode(String.self, forKey: .firstname)
         self.lastname = try values.decode(String.self, forKey: .lastname)
-        self.avatarphoto = try values.decode(URL.self, forKey: .avatarphoto)
+        self.avatarphoto = try values.decode(String.self, forKey: .avatarphoto)
         self.id = try values.decode(Int.self, forKey: .id)
 
     }

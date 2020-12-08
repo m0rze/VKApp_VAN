@@ -24,7 +24,7 @@ class FriendsPhotoCollectionViewController: UICollectionViewController {
             DispatchQueue.main.async { [self] in
                 guard let self = self, let photos = allPhotos else { return }
                 self.friendsPhotos = photos
-                print(self.friendsPhotos)
+               // print(self.friendsPhotos)
                 self.photosView.friendPhotos = self.friendsPhotos
                 self.collectionView.reloadData()
             }

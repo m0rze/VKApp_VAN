@@ -103,7 +103,7 @@ class MainView: UIView {
             oneFriendPhoto.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -50)
             
         ])
-        oneFriendPhoto.load(url: friendPhotos[currentImageIndex]!.photo_2560)
+        oneFriendPhoto.load(url: URL(string: friendPhotos[currentImageIndex]!.photo_2560)!)
         
     }
     
@@ -114,7 +114,7 @@ class MainView: UIView {
             self.oneFriendPhoto.alpha = 0.0
             self.oneFriendPhoto.transform = CGAffineTransform(scaleX: 0.2, y: 0.2)
         }, completion: { _ in
-            self.oneFriendPhoto.load(url: self.friendPhotos[self.currentImageIndex]!.photo_2560)
+            self.oneFriendPhoto.load(url: URL(string: self.friendPhotos[self.currentImageIndex]!.photo_2560)!)
             self.oneFriendPhoto.center = CGPoint(x: self.screenSize.midX, y: self.screenSize.midY)
             UIView.animate(withDuration: 0.2, animations: {
                 self.oneFriendPhoto.alpha = 1.0
@@ -133,7 +133,7 @@ class MainView: UIView {
             self.oneFriendPhoto.transform = CGAffineTransform(scaleX: 0.2, y: 0.2)
         }, completion: { _ in
             //self.oneFriendPhoto.image = UIImage(named: self.friendPhotos[self.currentImageIndex]?.name ?? "")
-            self.oneFriendPhoto.load(url: self.friendPhotos[self.currentImageIndex]!.photo_2560)
+            self.oneFriendPhoto.load(url: URL(string: self.friendPhotos[self.currentImageIndex]!.photo_2560)!)
             self.oneFriendPhoto.center = CGPoint(x: self.screenSize.midX, y: self.screenSize.midY)
             UIView.animate(withDuration: 0.2, animations: {
                 self.oneFriendPhoto.alpha = 1.0
