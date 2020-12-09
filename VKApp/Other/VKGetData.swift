@@ -51,7 +51,7 @@ class VKGetData {
     private init() {}
     
     @discardableResult
-    func getFriendsList(completion: @escaping ([FriendsData]?) -> Void) -> Request {
+    func getFriendsList(completion: @escaping () -> Void) -> Request {
         
         let apiVKGetURL = vkGetBaseData.baseURL + "friends.get"
         let parameters: Parameters = [
@@ -66,16 +66,17 @@ class VKGetData {
             guard let data = response.value,
                   let friends = try? JSONDecoder().decode(ResFriendsResponse.self, from: data).response.items
             else {
-                completion(nil)
+                completion()
                 return
             }
-            completion(friends)
+            RealmActions.shared.saveRealmFriends(inRealmData: friends)
+            completion()
         }
         
     }
     
     @discardableResult
-    func getPhotosList(ownerId: Int, completion: @escaping ([FriendPhotos]?) -> Void) -> Request {
+    func getPhotosList(ownerId: Int, completion: @escaping () -> Void) -> Request {
         
         let apiVKGetURL = vkGetBaseData.baseURL + "photos.getAll"
         let parameters: Parameters = [
@@ -91,17 +92,20 @@ class VKGetData {
             guard let data = response.value,
                   let friendPhotos = try? JSONDecoder().decode(ResFriendPhotosResponse.self, from: data).response.items
             else {
-                completion(nil)
+                
+                completion()
                 return
             }
             //print(friendPhotos)
-            completion(friendPhotos)
+            
+            RealmActions.shared.saveRealmFriendsPhotos(inRealmData: friendPhotos, friendId: ownerId)
+            completion()
         }
         
     }
     
     @discardableResult
-    func getGroupsList(completion: @escaping ([UserGroups]?) -> Void) -> Request {
+    func getGroupsList(completion: @escaping () -> Void) -> Request {
         
         let apiVKGetURL = vkGetBaseData.baseURL + "groups.get"
         let parameters: Parameters = [
@@ -118,11 +122,12 @@ class VKGetData {
             guard let data = response.value,
                   let userGroups = try? JSONDecoder().decode(ResGroupsResponse.self, from: data).response.items
             else {
-                completion(nil)
+                completion()
                 return
             }
             //print(userGroups)
-            completion(userGroups)
+            RealmActions.shared.saveRealmUserGroups(inRealmData: userGroups)
+            completion()
         }
         
     }

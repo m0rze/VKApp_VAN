@@ -30,10 +30,10 @@ class UserGroupsListTable: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        VKGetData.shared.getGroupsList(completion: { [weak self] allGroups in
+        VKGetData.shared.getGroupsList(completion: { [weak self] in
             DispatchQueue.main.async {
-                guard let self = self, let groups = allGroups else { return }
-                self.userGroups = groups
+                guard let self = self else { return }
+                self.userGroups = RealmActions.shared.loadRealmUserGroups()
                 self.tableView.reloadData()
             }
             })

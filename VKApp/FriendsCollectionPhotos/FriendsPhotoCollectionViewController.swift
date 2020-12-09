@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import RealmSwift
 
 class FriendsPhotoCollectionViewController: UICollectionViewController {
     
@@ -18,12 +19,10 @@ class FriendsPhotoCollectionViewController: UICollectionViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        //VKGetData.shared.getPhotosList(ownerId: friendIndex!)
-        VKGetData.shared.getPhotosList(ownerId: friendIndex!, completion: { [weak self] allPhotos in
+        VKGetData.shared.getPhotosList(ownerId: friendIndex!, completion: { [weak self] in
             DispatchQueue.main.async { [self] in
-                guard let self = self, let photos = allPhotos else { return }
-                self.friendsPhotos = photos
+                guard let self = self else { return }
+                self.friendsPhotos = RealmActions.shared.loadRealmFriendsPhotos(friendId: self.friendIndex!)
                // print(self.friendsPhotos)
                 self.photosView.friendPhotos = self.friendsPhotos
                 self.collectionView.reloadData()

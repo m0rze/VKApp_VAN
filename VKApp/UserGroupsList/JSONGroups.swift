@@ -22,6 +22,10 @@ class UserGroups: Object, Decodable {
         super.init()
     }
     
+    override class func primaryKey() -> String? {
+        return "id"
+    }
+    
     enum ItemsKeys: String, CodingKey {
         
         case name

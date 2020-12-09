@@ -29,10 +29,11 @@ class FriendsListTableViewController: UITableViewController, UISearchBarDelegate
         super.viewDidLoad()
         self.navigationController?.delegate = self
         
-        VKGetData.shared.getFriendsList(completion: { [weak self] allFriends in
+        VKGetData.shared.getFriendsList(completion: { [weak self] in
             DispatchQueue.main.async {
-                guard let self = self, let friends = allFriends else { return }
-                self.friends = friends
+                guard let self = self else { return }
+                self.friends = RealmActions.shared.loadRealmFriends()
+                //print(self.friends)
                 self.sorteredFriends()
                 self.tableView.reloadData()
             }
