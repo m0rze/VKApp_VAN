@@ -16,7 +16,8 @@ struct FriendsFullData {
 
 class FriendsListTableViewController: UITableViewController, UISearchBarDelegate, UINavigationControllerDelegate {
     
-    var friends: [FriendsData] = []
+    //var friends: [FriendsData] = []
+    var friends: Results<FriendsData>!
     let userSession = UserSessions.instance
     
     var searchedFriends: [FriendsData] = []
@@ -25,110 +26,55 @@ class FriendsListTableViewController: UITableViewController, UISearchBarDelegate
     
     var rootFriendIndex: Int? = nil
     
+    private var token: NotificationToken?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationController?.delegate = self
+        self.getFriendsAndObserve()
+        //self.sorteredFriends()
         
-        VKGetData.shared.getFriendsList(completion: { [weak self] in
-            DispatchQueue.main.async {
-                guard let self = self else { return }
-                self.friends = RealmActions.shared.loadRealmFriends()
-                //print(self.friends)
-                self.sorteredFriends()
+    }
+    
+    func getFriendsAndObserve() {
+        
+        self.friends = RealmActions.shared.loadRealmFriends()
+        
+        token = friends?.observe(on: DispatchQueue.main, { [weak self] changes in
+            guard let self = self else { return }
+            switch changes {
+            case .update(_, let deletions, let insertions, let modifications):
+                self.tableView.beginUpdates()
+                self.tableView.insertRows(at: insertions.map { IndexPath(row: $0, section: 0) }, with: .automatic)
+                self.tableView.deleteRows(at: deletions.map { IndexPath(row: $0, section: 0) }, with: .automatic)
+                self.tableView.reloadRows(at: modifications.map { IndexPath(row: $0, section: 0) }, with: .automatic)
+                self.tableView.endUpdates()
+            case .initial:
                 self.tableView.reloadData()
-            }
-            })
- 
-    }
-    
-    func sorteredFriends(){
-        searchedFriends = friends
-        
-        let searchBar: UISearchBar = UISearchBar()
-        searchBar.searchBarStyle = UISearchBar.Style.prominent
-        searchBar.placeholder = " Поиск..."
-        searchBar.sizeToFit()
-        searchBar.isTranslucent = false
-        searchBar.delegate = self
-        tableView.tableHeaderView = searchBar
-        
-        tableView.backgroundColor = #colorLiteral(red: 0.02839463949, green: 0.8947911859, blue: 1, alpha: 1)
-        tableView.register(UINib(nibName: "FriendsHeaderCell", bundle: .none), forHeaderFooterViewReuseIdentifier: "FriendCell")
-        
-        sortedFriendsData = map(friends: searchedFriends)
-    }
-    
-    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        
-        guard let text = searchBar.text else { return }
-        
-        if text.isEmpty {
-            searchedFriends = friends
-        } else {
-            
-            searchedFriends = friends.filter({ (friend) -> Bool in
-                return friend.firstname.contains(text)
-            })
-        }
-        sortedFriendsData = map(friends: searchedFriends)
-        tableView.reloadData()
-    }
-    
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return sortedFriendsData[section].friendData.count
-    }
-    
-    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let view = tableView.dequeueReusableHeaderFooterView(withIdentifier: "FriendCell") as! FriendsHeaderCell
-        
-        let headerTitle = sortedFriendsData[section].letter
-        view.headerLabel.text = headerTitle
-        return view
-    }
-    
-    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 50
-    }
-    
-    private func map(friends: [FriendsData]) -> [FriendsFullData] {
-        
-        var outputFriends: [FriendsFullData] = []
-        let sortedFriends = friends.sorted{(u1, u2) -> Bool in u1.firstname < u2.firstname}
-        
-        var lastOfLetter: String = ""
-        var friendsOfLetter: [FriendsData] = []
-        var i: Int = 0
-        for oneFriend in sortedFriends {
-            i += 1
-            if lastOfLetter == "" {
-                lastOfLetter = oneFriend.firstLetter
-            }
-            
-            if lastOfLetter == oneFriend.firstLetter {
-                friendsOfLetter.append(oneFriend)
-            } else {
-                outputFriends.append(FriendsFullData(letter: lastOfLetter, friendData: friendsOfLetter))
-                friendsOfLetter = []
-                friendsOfLetter.append(oneFriend)
+            case .error(let error):
+                print(error.localizedDescription)
                 
             }
             
-            if i == sortedFriends.count {
-                outputFriends.append(FriendsFullData(letter: oneFriend.firstLetter, friendData: friendsOfLetter))
-            }
-            lastOfLetter = oneFriend.firstLetter
-            
-        }
+        })
         
-        return outputFriends
+        VKGetData.shared.getFriendsList(completion: {})
     }
     
+
+    
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return friends.count
+    }
+    
+
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "MyFriendsCell", for: indexPath) as! FriendsOneCellController
         
-        let currentFriend = sortedFriendsData[indexPath.section].friendData[indexPath.row]
+       // let currentFriend = sortedFriendsData[indexPath.section].friendData[indexPath.row]
+        let currentFriend = friends[indexPath.row]
         cell.configCell(oneFriend: currentFriend)
         
         return cell
@@ -139,16 +85,12 @@ class FriendsListTableViewController: UITableViewController, UISearchBarDelegate
         
         self.rootFriendIndex = indexPath.row
         let vc = UIStoryboard(name:"Main", bundle:nil).instantiateViewController(withIdentifier: "FriendsPhotoCollectionViewControllerID") as! FriendsPhotoCollectionViewController
-        vc.friendIndex = sortedFriendsData[indexPath.section].friendData[indexPath.row].id
+        vc.friendIndex = friends[indexPath.row].id
         
         self.navigationController?.pushViewController(vc, animated:true)
         
     }
-    
-    override func numberOfSections(in tableView: UITableView) -> Int {
-        return sortedFriendsData.count
-    }
-    
+
     
     func navigationController(_ navigationController: UINavigationController,animationControllerFor operation: UINavigationController.Operation, from fromVC: UIViewController, to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         
@@ -170,8 +112,8 @@ class FriendsListTableViewController: UITableViewController, UISearchBarDelegate
     
     func navigationController(_ navigationController: UINavigationController,
                               interactionControllerFor animationController: UIViewControllerAnimatedTransitioning)
-        -> UIViewControllerInteractiveTransitioning? {
-            return interactiveTransition.hasStarted ? interactiveTransition : nil
+    -> UIViewControllerInteractiveTransitioning? {
+        return interactiveTransition.hasStarted ? interactiveTransition : nil
     }
     
 }

@@ -19,16 +19,17 @@ class RealmActions {
         let realm = try! Realm(configuration: config)
         try? realm.write {
             realm.add(inRealmData, update: .modified)
-            //print(realm.configuration.fileURL)
+            
         }
         
     }
     
-    func loadRealmFriends() -> [FriendsData] {
+    func loadRealmFriends() -> Results<FriendsData> {
         
         let realm = try! Realm()
-        let friends = realm.objects(FriendsData.self)
-        return Array(friends)
+        let friends = realm.objects(FriendsData.self).sorted(byKeyPath: "firstname", ascending: true)
+       // print(realm.configuration.fileURL)
+        return friends
         
     }
    
@@ -46,11 +47,12 @@ class RealmActions {
         
     }
     
-    func loadRealmFriendsPhotos(friendId: Int) -> [FriendPhotos] {
+    func loadRealmFriendsPhotos(friendId: Int) -> Results<FriendPhotos> {
         
         let realm = try! Realm()
         let friends = realm.objects(FriendPhotos.self).filter("friendId == %@", friendId)
-        return Array(friends)
+        //print(realm.configuration.fileURL)
+        return friends
         
     }
     
@@ -65,11 +67,11 @@ class RealmActions {
         
     }
     
-    func loadRealmUserGroups() -> [UserGroups] {
+    func loadRealmUserGroups() -> Results<UserGroups> {
         
         let realm = try! Realm()
         let userGroups = realm.objects(UserGroups.self).sorted(byKeyPath: "name", ascending: true)
-        return Array(userGroups)
+        return userGroups
         
     }
     

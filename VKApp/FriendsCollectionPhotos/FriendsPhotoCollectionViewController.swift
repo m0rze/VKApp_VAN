@@ -15,20 +15,40 @@ class FriendsPhotoCollectionViewController: UICollectionViewController {
     var photosView = ViewPhotos()
     var currentLikes: Int?
     
-    var friendsPhotos: [FriendPhotos] = []
+    var friendsPhotos: Results<FriendPhotos>!
+    private var token: NotificationToken?
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        VKGetData.shared.getPhotosList(ownerId: friendIndex!, completion: { [weak self] in
-            DispatchQueue.main.async { [self] in
-                guard let self = self else { return }
-                self.friendsPhotos = RealmActions.shared.loadRealmFriendsPhotos(friendId: self.friendIndex!)
-               // print(self.friendsPhotos)
-                self.photosView.friendPhotos = self.friendsPhotos
-                self.collectionView.reloadData()
-            }
-            })
+        getFriendsPhotosAndObserve()
         
+    }
+    
+    func getFriendsPhotosAndObserve() {
+        
+        self.friendsPhotos = RealmActions.shared.loadRealmFriendsPhotos(friendId: friendIndex!)
+        
+        token = friendsPhotos?.observe(on: DispatchQueue.main, { [weak self] changes in
+            guard let self = self else { return }
+            switch changes {
+            case .update(_, let deletions, let insertions, let modifications):
+                self.collectionView.performBatchUpdates({
+                    
+                    self.collectionView.insertItems(at: insertions.map { IndexPath(row: $0, section: 0) })
+                    self.collectionView.deleteItems(at: deletions.map { IndexPath(row: $0, section: 0) })
+                    self.collectionView.reloadItems(at: modifications.map { IndexPath(row: $0, section: 0) })
+                    
+                }, completion: nil)
+            case .initial:
+                self.collectionView.reloadData()
+            case .error(let error):
+                print(error.localizedDescription)
+                
+            }
+            
+        })
+        
+        VKGetData.shared.getPhotosList(ownerId: friendIndex!, completion: {})
     }
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -57,7 +77,7 @@ class FriendsPhotoCollectionViewController: UICollectionViewController {
     }
     
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        photosView.friendPhotos = friendsPhotos
+        photosView.friendPhotos = Array(friendsPhotos)
         photosView.currentImageIndex = indexPath.row        
         self.navigationController!.pushViewController(photosView, animated: true)
     }

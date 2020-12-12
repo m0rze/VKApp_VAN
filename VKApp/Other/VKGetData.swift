@@ -92,11 +92,11 @@ class VKGetData {
             guard let data = response.value,
                   let friendPhotos = try? JSONDecoder().decode(ResFriendPhotosResponse.self, from: data).response.items
             else {
-                
+                //print(response.value)
                 completion()
                 return
             }
-            //print(friendPhotos)
+            
             
             RealmActions.shared.saveRealmFriendsPhotos(inRealmData: friendPhotos, friendId: ownerId)
             completion()
