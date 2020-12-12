@@ -22,6 +22,10 @@ class FriendsData: Object, Decodable {
     override init(){
         super.init()
     }
+    
+    override class func primaryKey() -> String? {
+        return "id"
+    }
 
     enum ItemsKeys: String, CodingKey {
 
