@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		910B4A83258A496300F770CC /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 910B4A82258A496300F770CC /* GoogleService-Info.plist */; };
+		910B4AA2258A51CC00F770CC /* LoginedUserFirebase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 910B4AA1258A51CC00F770CC /* LoginedUserFirebase.swift */; };
 		910E9DD724FAC6D40052FEDD /* Friends.swift in Sources */ = {isa = PBXBuildFile; fileRef = 910E9DD624FAC6D40052FEDD /* Friends.swift */; };
 		910E9DD924FACEE10052FEDD /* Groups.swift in Sources */ = {isa = PBXBuildFile; fileRef = 910E9DD824FACEE10052FEDD /* Groups.swift */; };
 		912042BA25003A490047A116 /* FriendsHeaderCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 912042B925003A490047A116 /* FriendsHeaderCell.xib */; };
@@ -48,6 +50,8 @@
 /* Begin PBXFileReference section */
 		08CEF47BD278874C6C62135E /* Pods-VKApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-VKApp.release.xcconfig"; path = "Target Support Files/Pods-VKApp/Pods-VKApp.release.xcconfig"; sourceTree = "<group>"; };
 		7E0734189BBE9E461A81C236 /* Pods_VKApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_VKApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		910B4A82258A496300F770CC /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		910B4AA1258A51CC00F770CC /* LoginedUserFirebase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginedUserFirebase.swift; sourceTree = "<group>"; };
 		910E9DD624FAC6D40052FEDD /* Friends.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Friends.swift; sourceTree = "<group>"; };
 		910E9DD824FACEE10052FEDD /* Groups.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Groups.swift; sourceTree = "<group>"; };
 		912042B925003A490047A116 /* FriendsHeaderCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FriendsHeaderCell.xib; sourceTree = "<group>"; };
@@ -159,6 +163,7 @@
 		918189E424EBF3310034166E /* VKApp */ = {
 			isa = PBXGroup;
 			children = (
+				910B4A82258A496300F770CC /* GoogleService-Info.plist */,
 				91B22360256F8B8D004531AA /* Other */,
 				91360D4A2501183B00E5E968 /* News */,
 				918D973724F2E97F000F10FE /* Model */,
@@ -236,6 +241,7 @@
 				918189E924EBF3310034166E /* LoginViewController.swift */,
 				913F4F842504F4D600CC86E1 /* ProcessBar.swift */,
 				91AB77E82565186F0036AAD8 /* sessions.swift */,
+				910B4AA1258A51CC00F770CC /* LoginedUserFirebase.swift */,
 			);
 			path = Login;
 			sourceTree = "<group>";
@@ -315,6 +321,7 @@
 				91360D4E2501188100E5E968 /* NewsCell.xib in Resources */,
 				918189ED24EBF3310034166E /* Main.storyboard in Resources */,
 				912042BA25003A490047A116 /* FriendsHeaderCell.xib in Resources */,
+				910B4A83258A496300F770CC /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -385,6 +392,7 @@
 				918189E624EBF3310034166E /* AppDelegate.swift in Sources */,
 				918189E824EBF3310034166E /* SceneDelegate.swift in Sources */,
 				913F4F8B2508CFA500CC86E1 /* ViewPhotos.swift in Sources */,
+				910B4AA2258A51CC00F770CC /* LoginedUserFirebase.swift in Sources */,
 				91360D502501191900E5E968 /* NewsCell.swift in Sources */,
 				918D974324F66B1C000F10FE /* AvatarView.swift in Sources */,
 				914BCB7B257505A3008E63C2 /* JSONPhotos.swift in Sources */,
