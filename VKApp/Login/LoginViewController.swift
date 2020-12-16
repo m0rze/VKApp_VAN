@@ -9,10 +9,13 @@
 import UIKit
 import Alamofire
 import WebKit
+import FirebaseDatabase
 
 
 
 class LoginViewController: UIViewController, WKNavigationDelegate {
+    
+    private let ref = Database.database().reference(withPath: "userIds")
     
     @IBOutlet weak var loginWebView: WKWebView! {
         didSet {
@@ -60,7 +63,7 @@ class LoginViewController: UIViewController, WKNavigationDelegate {
             decisionHandler(.allow)
             return
         }
-        print(url)
+       // print(url)
         
         let params = fragment
             .components(separatedBy: "&")
@@ -80,6 +83,12 @@ class LoginViewController: UIViewController, WKNavigationDelegate {
         userSession.userId = userId ?? ""
         
         if userSession.token != "" {
+            let loggedUserId = LoginedUserFirebase(userId: userId!)
+            print(loggedUserId)
+            print(loggedUserId.toAnyObject())
+            let userRef = self.ref.child(userId!.lowercased())
+            userRef.setValue(loggedUserId.toAnyObject())
+
         let vc = UIStoryboard(name:"Main", bundle:nil).instantiateViewController(withIdentifier: "maintabs") as! UITabBarController
         self.present(vc, animated: true, completion: nil)
         }

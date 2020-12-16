@@ -45,7 +45,6 @@ class VKGetData {
     
     let vkGetBaseData = vkApiGetData()
     let userSession = UserSessions.instance
-    
     static let shared = VKGetData()
     
     private init() {}
@@ -86,7 +85,7 @@ class VKGetData {
             "owner_id" : ownerId,
             "count" : "10",
             "v" : "5.68"
-   
+            
         ]
         return Session.default.request(apiVKGetURL, parameters: parameters).responseData { response in
             guard let data = response.value,
@@ -119,6 +118,7 @@ class VKGetData {
             
         ]
         return Session.default.request(apiVKGetURL, parameters: parameters).responseData { response in
+            
             guard let data = response.value,
                   let userGroups = try? JSONDecoder().decode(ResGroupsResponse.self, from: data).response.items
             else {
@@ -127,6 +127,7 @@ class VKGetData {
             }
             //print(userGroups)
             RealmActions.shared.saveRealmUserGroups(inRealmData: userGroups)
+            UserGroupsListTable.shared.saveToFirestore(userGroups)
             completion()
         }
         

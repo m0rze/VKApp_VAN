@@ -9,8 +9,9 @@
 import Foundation
 import UIKit
 import RealmSwift
+import FirebaseFirestore
 
-class UserGroups: Object, Decodable {
+class UserGroups: Object, Decodable, Encodable {
     
     @objc dynamic var desc = ""
     @objc dynamic var id = 0
@@ -25,6 +26,7 @@ class UserGroups: Object, Decodable {
     override class func primaryKey() -> String? {
         return "id"
     }
+    
     
     enum ItemsKeys: String, CodingKey {
         
@@ -45,5 +47,12 @@ class UserGroups: Object, Decodable {
         self.id = try values.decode(Int.self, forKey: .id)
   
     }
+    
+    func toFirestore() -> [String: Any] {
+        return [
+            String(id) : name
+        ]
+    }
+
     
 }
